@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+    <div id="sidebar">
+        {% block sidebar %}
+            <ul>
+                <div>
+                    <li><a href="/main" class="aboutLink">О сайте</a></li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="/admin" class="adminLink">Admin</a></li>
+                    {% endif %}
+                </div>
+                <div>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <li class="outName">{{ app.user.username }}</li>
+                        <li><a href="/news" class="logout">Главная</a></li>
+                        <li><a href="/logout" class="logout">Выход</a></li>
+                    {% else %}
+                        <li><a href="/login" class="login">Войти</a></li>
+                        <li><a href="/register" class="register">Регистрация</a></li>
+                    {% endif %}
+                </div>
+            </ul>
+        {% endblock %}
+    </div>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New News{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{% endblock %}
+{% block body %}
+    <style>
+        p{
+            text-align: center;
+        }
+
+        form{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            position: absolute;
+            left: 20px;
+        }
+
+        textarea{
+            resize: none;
+            width: 350px;
+            height: 100px;
+        }
+
+        .btn-success{
+            margin: 20px;
+        }
+
+        h1{
+            margin-left: 20px;
+        }
+
+    </style>
+    <h1>Добавление новости</h1>
+
+{#{{ include('news/_form.html.twig') }}#}
+    {{ form_start(form) }}
+    {{ form_label(form.Title, 'Заголовок') }}
+    {{ form_widget(form.Title, {'attr': {'class': 'Title'}}) }}
+    {{ form_label(form.Description, 'Текст') }}
+    {{ form_widget(form.Description,{'attr': {'class': 'Description'}})}}
+    <button class="btn btn-success">{{ button_label|default('Создать') }}</button>
+    {{ form_end(form) }}
+{% endblock %}

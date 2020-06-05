@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}News index{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{% endblock %}
+{% block body %}
+    <style>
+        p{
+            text-align: center;
+        }
+
+        .btn-success{
+            margin: 20px;
+        }
+        h1{
+            margin-left: 20px;
+        }
+    </style>
+    {% if app.user %}
+        <a href="{{ path('news_new') }}"><button class="btn btn-success">Добавить новость</button></a>
+    {% endif %}
+    <h1>Новости</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th><p>Название</p></th>
+                <th><p>Дата  публикации</p></th>
+                <th><p>Текст новости</p></th>
+                <th><p>Количество просмотров</p></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for news in news %}
+            <tr>
+                <td><p>{{ news.Title }}</p></td>
+                <td><p>{{ news.Date ? news.Date|date('d.m.Y') : '' }}</p></td>
+                <td><p>{{ news.Description }}</p></td>
+                <td><p>{{ news.NumberOfViews }}</p></td>
+                <td>
+                    <a href="{{ path('news_show', {'id': news.id}) }}"><button class=" btn btn-primary">Посмотреть</button></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

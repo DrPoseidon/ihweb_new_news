@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{% endblock %}
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+    <div class="example-wrapper">
+        <h1>Привет!</h1>
+        <p>Это новостной сайт.</p>
+
+        {% if app.user %}
+            <div class="mb-3">
+                Вы вошли как {{ app.user.username }} <a href="{{ path('app_logout') }}">Выйти</a>
+                {% if  is_granted('ROLE_ADMIN')%}
+                <a href="../admin">Admin</a>
+                {% endif %}
+            </div>
+        {% else %}
+            <a href="/login">Войти</a></br>
+            <a href="/register">Зарегистрироваться</a>
+
+        {% endif %}
+    </div>
+{% endblock %}

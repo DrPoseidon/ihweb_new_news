@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block title %}News{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+{% endblock %}
+{% block body %}
+    <style>
+        p{
+            text-align: center;
+        }
+
+        .comment_div{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        form{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        textarea{
+            resize: none;
+        }
+
+        .btn-primary{
+            margin: 20px;
+        }
+
+    </style>
+    <h1>{{ news.Title }}</h1>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th><p>Дата публикации</p></th>
+                <th><p>Текст новости</p></th>
+                <th><p>Количество просмотров</p></th>
+            </tr>
+            <tr>
+                <td><p>{{ news.Date ? news.Date|date('d.m.Y') : '' }}</p></td>
+                <td><p>{{ news.Description }}</p></td>
+                <td><p>{{ news.NumberOfViews }}</p></td>
+            </tr>
+
+        </tbody>
+    </table>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<div class="comment_div">
+        {{ form_start(formC) }}
+        <p>Напишите комментарий</p>
+        {{ form_widget(formC.Text, { 'attr': {'rows' : '4','cols' : '50'}} ) }}
+        <button class="btn btn-primary">{{ button_label|default('Добавить комментарий') }}</button>
+        {{ form_end(formC) }}
+    </div>
+    {% endif %}
+    {% if comments %}
+    <table class="table">
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ comment.CommentsUser }}</td>
+                <td>{{ comment.Text }}</td>
+                {% if comment.CommentsUser == app.user %}
+                    <td>
+                        <form method="post" action="{{ path('comments_delete', {'id': comment.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+            {% endif %}
+
+
+        </tbody>
+    </table>
+{% endblock %}
